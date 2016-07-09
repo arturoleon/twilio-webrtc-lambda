@@ -11,7 +11,7 @@
       type="text/css" rel="stylesheet" />
     <script type="text/javascript">
       $(document).ready(function() {
-          $.get("{GET TOKEN API}", function(data) {
+          $.get("{GET_TOKEN_URL}", function(data) {
               Twilio.Device.setup(data.token,{closeProtection: true});
           });
       });
