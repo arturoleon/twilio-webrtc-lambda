@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebRTC + Twilio</title>
+    <script type="text/javascript"
+      src="https://media.twiliocdn.com/sdk/js/client/v1.3/twilio.min.js"></script>
+    <script type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+    </script>
+    <link href="https://static0.twilio.com/resources/quickstart/client.css"
+      type="text/css" rel="stylesheet" />
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $.get("{GET TOKEN API}", function(data) {
+              Twilio.Device.setup(data.token,{closeProtection: true});
+          });
+      });
+
+      Twilio.Device.ready(function (device) {
+        $("#log").text("Ready");
+      });
+
+      Twilio.Device.error(function (error) {
+        $("#log").text("Error: " + error.message);
+      });
+
+      Twilio.Device.connect(function (conn) {
+        $("#log").text("Successfully established call");
+      });
+
+      Twilio.Device.disconnect(function (conn) {
+        $("#log").text("Call ended");
+      });
+
+      function call() {
+        // get the phone number to connect the call to
+        params = {"callTo": $("#number").val()};
+        Twilio.Device.connect(params);
+      }
+
+      function hangup() {
+        Twilio.Device.disconnectAll();
+      }
+    </script>
+  </head>
+  <body>
+    <button class="call" onclick="call();">
+      Call
+    </button>
+
+    <button class="hangup" onclick="hangup();">
+      Hangup
+    </button>
+
+    <input type="text" id="number" name="number"
+      placeholder="Enter a phone number to call"/>
+
+    <div id="log">Loading pigeons...</div>
+  </body>
+</html>
